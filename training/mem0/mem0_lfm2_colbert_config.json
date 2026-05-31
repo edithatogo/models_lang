@@ -12,6 +12,14 @@
       "query_max_tokens": 32,
       "output_dim": 128
     },
+    "sidecar": {
+      "base_url": "http://127.0.0.1:8766",
+      "health_path": "/health",
+      "upsert_path": "/documents/upsert",
+      "search_path": "/search",
+      "document_path": "/documents/{document_id}",
+      "service_entrypoint": "training/mem0/lfm2_colbert_sidecar.py"
+    },
     "requires_late_interaction_adapter": true,
     "single_vector_embedding_provider": false,
     "notes": [
@@ -49,6 +57,7 @@
       "fine_tune_fact_extractor_lora",
       "prepare_query_positive_negative_triplets",
       "fine_tune_lfm2_colbert_retriever",
+      "start_lfm2_colbert_sidecar",
       "build_colbert_plaid_index",
       "verify_mem0_memory_create_and_search"
     ]

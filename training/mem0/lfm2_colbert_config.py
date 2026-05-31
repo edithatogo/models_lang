@@ -19,6 +19,7 @@ FACT_EXTRACTOR_MODEL_ID = "LiquidAI/lfm2.5-1.2b-instruct"
 DEFAULT_CONFIG_PATH = Path("training/mem0/mem0_lfm2_colbert_config.json")
 DEFAULT_FACT_ADAPTER_DIR = Path("training/fine-tuning/lfm2.5-1.2b-mem0-lora")
 DEFAULT_COLBERT_ADAPTER_DIR = Path("training/fine-tuning/lfm2-colbert-350m-mem0")
+DEFAULT_SIDECAR_BASE_URL = "http://127.0.0.1:8766"
 
 
 @dataclass(frozen=True)
@@ -33,6 +34,16 @@ class ColbertRetrievalConfig:
     document_max_tokens: int = 512
     query_max_tokens: int = 32
     output_dim: int = 128
+
+
+@dataclass(frozen=True)
+class ColbertSidecarConfig:
+    base_url: str = DEFAULT_SIDECAR_BASE_URL
+    health_path: str = "/health"
+    upsert_path: str = "/documents/upsert"
+    search_path: str = "/search"
+    document_path: str = "/documents/{document_id}"
+    service_entrypoint: str = "training/mem0/lfm2_colbert_sidecar.py"
 
 
 @dataclass(frozen=True)
@@ -64,6 +75,7 @@ def build_mem0_config() -> dict[str, Any]:
     return {
         "mem0": {
             "embedding_model": asdict(ColbertRetrievalConfig()),
+            "sidecar": asdict(ColbertSidecarConfig()),
             "requires_late_interaction_adapter": True,
             "single_vector_embedding_provider": False,
             "notes": [
@@ -80,6 +92,7 @@ def build_mem0_config() -> dict[str, Any]:
                 "fine_tune_fact_extractor_lora",
                 "prepare_query_positive_negative_triplets",
                 "fine_tune_lfm2_colbert_retriever",
+                "start_lfm2_colbert_sidecar",
                 "build_colbert_plaid_index",
                 "verify_mem0_memory_create_and_search",
             ],
@@ -100,6 +113,8 @@ def validate_mem0_config(config: dict[str, Any]) -> None:
         raise ValueError("LFM2-ColBERT must be configured as a multi-vector retriever")
     if config["mem0"]["single_vector_embedding_provider"] is not False:
         raise ValueError("LFM2-ColBERT is not a plain single-vector embedding provider")
+    if not config["mem0"]["sidecar"]["base_url"]:
+        raise ValueError("mem0 sidecar base_url is required")
     if retrieval_finetune["model_id"] != COLBERT_MODEL_ID:
         raise ValueError("retrieval fine-tune stage must target the ColBERT model")
     if fact_finetune["model_id"] != FACT_EXTRACTOR_MODEL_ID:

@@ -21,6 +21,58 @@ Generate the checked config with:
 python training\mem0\lfm2_colbert_config.py --output training\mem0\mem0_lfm2_colbert_config.json
 ```
 
+Install and run the sidecar:
+
+```powershell
+pip install -r training\mem0\requirements-colbert-sidecar.txt
+python training\mem0\lfm2_colbert_sidecar.py --host 127.0.0.1 --port 8766
+```
+
+By default the sidecar lazy-loads PyLate and `LiquidAI/LFM2-ColBERT-350M`.
+This lets `/health` and `/mem0/config` come up immediately; the first
+`/documents/upsert` or `/search` request loads the actual ColBERT model and
+PLAID index. Use `--eager-load` only when you want startup to block until the
+model is fully initialized.
+
+The sidecar exposes:
+
+- `GET /health`
+- `GET /mem0/config`
+- `POST /documents/upsert`
+- `POST /search`
+- `GET /documents/{document_id}`
+
+`POST /documents/upsert` accepts memory records as:
+
+```json
+{
+  "documents": [
+    {
+      "id": "mem0-memory-id",
+      "text": "memory text to retrieve",
+      "metadata": {
+        "user_id": "user-123"
+      }
+    }
+  ]
+}
+```
+
+Runtime note for this Windows environment: installing `pylate` succeeds and the
+sidecar starts, but PyLate currently installs a Torch 2.9-aligned FastPLAID
+stack and pip reports version conflicts with the existing OpenVINO/NNCF smoke
+environment. Keep the sidecar dependency set isolated if OpenVINO/NNCF
+quantization work is running in parallel.
+
+`POST /search` accepts:
+
+```json
+{
+  "query": "what memory should I retrieve?",
+  "k": 10
+}
+```
+
 Run the retrieval fine-tune stage with a Hugging Face triplet dataset:
 
 ```powershell

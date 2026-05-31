@@ -18,3 +18,9 @@ conductor/
 *.safetensors
 *.gguf
 *.bin.tmp
+
+# Local mem0 sidecar runtime state
+training/mem0/*.log
+training/mem0/*.pid
+training/mem0/lfm2-colbert-index/
+training/mem0/lfm2-colbert-documents.jsonl

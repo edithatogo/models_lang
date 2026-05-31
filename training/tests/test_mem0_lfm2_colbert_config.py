@@ -25,6 +25,8 @@ def test_mem0_embedding_model_is_lfm2_colbert_late_interaction():
     assert embedding_model["scoring"] == "maxsim"
     assert embedding_model["embedding_shape"] == "multi_vector_token_embeddings"
     assert embedding_model["output_dim"] == 128
+    assert config["mem0"]["sidecar"]["base_url"] == "http://127.0.0.1:8766"
+    assert config["mem0"]["sidecar"]["service_entrypoint"] == "training/mem0/lfm2_colbert_sidecar.py"
     assert config["mem0"]["single_vector_embedding_provider"] is False
     assert config["mem0"]["requires_late_interaction_adapter"] is True
 
@@ -41,6 +43,7 @@ def test_pipeline_keeps_fact_extraction_and_retrieval_finetunes_separate():
     assert retrieval_stage["model_id"] == "LiquidAI/LFM2-ColBERT-350M"
     assert retrieval_stage["dataset_schema"] == "query_positive_negative_triplets"
     assert retrieval_stage["trainer_entrypoint"] == "training/mem0/lfm2_colbert_finetune.py"
+    assert "start_lfm2_colbert_sidecar" in config["fine_tuning"]["pipeline_order"]
     assert "fine_tune_lfm2_colbert_retriever" in config["fine_tuning"]["pipeline_order"]
 
 
