@@ -1,0 +1,10 @@
+{
+  "source_xml": "training\\fine-tuning\\lfm2.5-1.2b-intel-lora-smoke\\openvino-ir\\model.xml",
+  "xml_path": "training\\fine-tuning\\lfm2.5-1.2b-intel-lora-smoke\\openvino-int8\\model_int8.xml",
+  "bin_path": "training\\fine-tuning\\lfm2.5-1.2b-intel-lora-smoke\\openvino-int8\\model_int8.bin",
+  "inputs": 1,
+  "outputs": 1,
+  "ops": 41,
+  "int8_related_ops": 11,
+  "calibration_samples": 16
+}
