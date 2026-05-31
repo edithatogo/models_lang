@@ -1,0 +1,12 @@
+{
+  "repo_id": "LiquidAI/LFM2-ColBERT-350M",
+  "output_dir": "training\\fine-tuning\\lfm2-colbert-350m-meta",
+  "revision": null,
+  "token_source": null,
+  "files": [
+    "config.json",
+    "tokenizer_config.json",
+    "modules.json",
+    "README.md"
+  ]
+}

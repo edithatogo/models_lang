@@ -1,0 +1,56 @@
+{
+  "mem0": {
+    "embedding_model": {
+      "provider": "lfm2-colbert",
+      "model_id": "LiquidAI/LFM2-ColBERT-350M",
+      "adapter": "pylate-colbert",
+      "index_backend": "plaid",
+      "vector_store_metadata": "chroma",
+      "scoring": "maxsim",
+      "embedding_shape": "multi_vector_token_embeddings",
+      "document_max_tokens": 512,
+      "query_max_tokens": 32,
+      "output_dim": 128
+    },
+    "requires_late_interaction_adapter": true,
+    "single_vector_embedding_provider": false,
+    "notes": [
+      "Use LiquidAI/LFM2-ColBERT-350M for retrieval embeddings.",
+      "Store mem0 records and metadata in Chroma, but route vector scoring through the ColBERT adapter/index.",
+      "Do not collapse token embeddings to a single vector unless a separate recall baseline is being tested."
+    ]
+  },
+  "fine_tuning": {
+    "fact_extraction": {
+      "model_id": "LiquidAI/lfm2.5-1.2b-instruct",
+      "method": "lora",
+      "output_dir": "training/fine-tuning/lfm2.5-1.2b-mem0-lora",
+      "dataset_schema": "dialogue_to_strict_json_facts",
+      "trainer_entrypoint": "training/fine-tuning/intel_lora_train.py",
+      "default_target_modules": [
+        "q_proj",
+        "k_proj",
+        "v_proj",
+        "o_proj"
+      ],
+      "lora_r": 16,
+      "lora_alpha": 32
+    },
+    "retrieval": {
+      "model_id": "LiquidAI/LFM2-ColBERT-350M",
+      "method": "contrastive_late_interaction",
+      "output_dir": "training/fine-tuning/lfm2-colbert-350m-mem0",
+      "dataset_schema": "query_positive_negative_triplets",
+      "trainer_entrypoint": "training/mem0/lfm2_colbert_finetune.py",
+      "scoring": "maxsim"
+    },
+    "pipeline_order": [
+      "prepare_dialogue_to_fact_jsonl",
+      "fine_tune_fact_extractor_lora",
+      "prepare_query_positive_negative_triplets",
+      "fine_tune_lfm2_colbert_retriever",
+      "build_colbert_plaid_index",
+      "verify_mem0_memory_create_and_search"
+    ]
+  }
+}
