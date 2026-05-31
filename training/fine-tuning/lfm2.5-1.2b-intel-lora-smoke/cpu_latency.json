@@ -1,0 +1,15 @@
+{
+  "device": "CPU",
+  "iterations": 50,
+  "warmup": 5,
+  "fp_xml": "training\\fine-tuning\\lfm2.5-1.2b-intel-lora-smoke\\openvino-ir\\model.xml",
+  "int8_xml": "training\\fine-tuning\\lfm2.5-1.2b-intel-lora-smoke\\openvino-int8\\model_int8.xml",
+  "fp_mean_ms": 0.05356800087611191,
+  "fp_p50_ms": 0.05265000072540715,
+  "fp_p95_ms": 0.06585500268556643,
+  "int8_mean_ms": 0.061285999981919304,
+  "int8_p50_ms": 0.05919999966863543,
+  "int8_p95_ms": 0.0872399996296735,
+  "max_abs_diff": 0.646422266960144,
+  "predictions_finite": true
+}
