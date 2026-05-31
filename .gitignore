@@ -8,6 +8,7 @@ pytest-cache-files-*/
 .venv/
 venv/
 env/
+training/venv/
 pip-*/
 
 # Nested repository managed separately
@@ -17,4 +18,3 @@ conductor/
 *.safetensors
 *.gguf
 *.bin.tmp
-
