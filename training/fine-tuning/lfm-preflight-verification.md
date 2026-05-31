@@ -29,4 +29,4 @@ training\fine-tuning\intel_lora_train.py --preflight-only --metadata-dir C:\tmp\
 
 The local metadata-only preflight is working. It verifies that the downloaded tokenizer/config files can be loaded and that the training text formatter and tokenizer plumbing produce the expected training example keys.
 
-This does not complete the full LFM training step, which still requires the full base model checkpoint and a Windows-compatible IPEX path.
+This does not complete the full LFM training step, which still requires the full base model checkpoint. IPEX is no longer treated as a required Windows path; native PyTorch training plus OpenVINO/NNCF export is the supported route on this host.

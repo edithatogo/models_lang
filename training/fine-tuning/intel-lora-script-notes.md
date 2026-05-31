@@ -18,9 +18,9 @@ The script defaults to:
 - LoRA alpha: `32`
 - LoRA dropout: `0.05`
 - Target modules: `q_proj`, `k_proj`, `v_proj`, `o_proj`
-- IPEX enabled when available
+- Native PyTorch BF16 path by default; IPEX optimization only when available
 
-Because IPEX is unavailable in the current Windows environment, the script supports fallback mode by default and has `--require-ipex` for environments where IPEX must be mandatory.
+Because IPEX is unavailable in the current Windows environment and has moved into legacy optional status, the script supports native PyTorch fallback mode by default and has `--require-ipex` only for compatible Linux environments where IPEX must be mandatory.
 
 ## Verification
 
@@ -28,10 +28,10 @@ Because IPEX is unavailable in the current Windows environment, the script suppo
 python -m pytest training\tests\test_intel_lora_config.py
 ```
 
-Result:
+Current result:
 
 ```text
-3 passed
+10 passed
 ```
 
 Pytest reported a cache write warning under `.pytest_cache`, but the tests passed.
