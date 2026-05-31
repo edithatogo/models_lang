@@ -1,0 +1,9 @@
+{
+  "checkpoint_path": "training\\fine-tuning\\lfm2.5-1.2b-intel-lora-smoke\\adapter_smoke.pt",
+  "onnx_path": "training\\fine-tuning\\lfm2.5-1.2b-intel-lora-smoke\\model.onnx",
+  "opset": 18,
+  "graph_name": "main_graph",
+  "inputs": 1,
+  "outputs": 1,
+  "nodes": 5
+}

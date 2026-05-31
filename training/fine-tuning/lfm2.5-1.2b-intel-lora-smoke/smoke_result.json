@@ -1,0 +1,7 @@
+{
+  "steps": 5,
+  "initial_norm": 0.03983465954661369,
+  "final_norm": 2.328954339027405,
+  "changed": true,
+  "checkpoint_path": "training\\fine-tuning\\lfm2.5-1.2b-intel-lora-smoke\\adapter_smoke.pt"
+}

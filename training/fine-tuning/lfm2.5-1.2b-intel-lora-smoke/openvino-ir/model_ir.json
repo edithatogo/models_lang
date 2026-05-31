@@ -1,0 +1,8 @@
+{
+  "onnx_path": "training\\fine-tuning\\lfm2.5-1.2b-intel-lora-smoke\\model.onnx",
+  "xml_path": "training\\fine-tuning\\lfm2.5-1.2b-intel-lora-smoke\\openvino-ir\\model.xml",
+  "bin_path": "training\\fine-tuning\\lfm2.5-1.2b-intel-lora-smoke\\openvino-ir\\model.bin",
+  "inputs": 1,
+  "outputs": 1,
+  "ops": 15
+}
