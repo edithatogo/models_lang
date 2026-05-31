@@ -7,7 +7,8 @@ Date: 2026-05-31
 - Repository: `https://github.com/edithatogo/models_lang`
 - Visibility: `PUBLIC`
 - Default branch: `main`
-- Verified remote head: `62687c8633881d3bf83a9224837a53bb0df20da7`
+- Verified pipeline/repo-card commit on remote `main`: `62687c8633881d3bf83a9224837a53bb0df20da7`
+- This verification note was pushed afterward, so the live branch head may be newer.
 
 Commands used:
 

@@ -16,7 +16,7 @@ Prepared local root repository:
   - `docs(training): prepare external publish handoff` (this manifest and model-card handoff)
   - `62687c8 docs(training): add Hugging Face repo card metadata`
 
-GitHub publication completed after public visibility approval. `gh repo view edithatogo/models_lang --json name,owner,visibility,url,defaultBranchRef` reported `visibility=PUBLIC`, URL `https://github.com/edithatogo/models_lang`, and default branch `main`. `git ls-remote --heads origin main` resolved to `62687c8633881d3bf83a9224837a53bb0df20da7`.
+GitHub publication completed after public visibility approval. `gh repo view edithatogo/models_lang --json name,owner,visibility,url,defaultBranchRef` reported `visibility=PUBLIC`, URL `https://github.com/edithatogo/models_lang`, and default branch `main`. Remote `main` was verified after pushing pipeline and Hugging Face repo-card metadata commit `62687c8633881d3bf83a9224837a53bb0df20da7`; this verification note was pushed afterward.
 
 ## Hugging Face
 
