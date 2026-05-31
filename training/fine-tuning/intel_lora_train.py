@@ -7,6 +7,8 @@ loaded only when `run_training` executes so configuration tests can run quickly.
 from __future__ import annotations
 
 import argparse
+import json
+import os
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Any
@@ -39,6 +41,16 @@ class TrainingConfig:
     require_ipex: bool = False
 
 
+@dataclass(frozen=True)
+class PreflightResult:
+    metadata_dir: Path
+    repo_id: str
+    tokenizer_loaded: bool
+    config_loaded: bool
+    tokenized_keys: tuple[str, ...]
+    token_source: str | None = None
+
+
 def resolve_ipex(use_ipex: bool, require_ipex: bool) -> IpexResolution:
     if not use_ipex:
         return IpexResolution(available=False, reason="IPEX disabled by configuration")
@@ -52,6 +64,18 @@ def resolve_ipex(use_ipex: bool, require_ipex: bool) -> IpexResolution:
         return IpexResolution(available=False, reason=reason)
 
     return IpexResolution(available=True, module=ipex, reason="IPEX available")
+
+
+def resolve_hf_token(explicit_token: str | None = None) -> tuple[str | None, str | None]:
+    if explicit_token:
+        return explicit_token, "explicit"
+
+    for env_name in ("HF_TOKEN", "HUGGINGFACE_HUB_TOKEN", "HF_HUB_TOKEN"):
+        token = os.environ.get(env_name)
+        if token:
+            return token, env_name
+
+    return None, None
 
 
 def torch_dtype(dtype: str):
@@ -107,6 +131,40 @@ def load_streaming_dataset(dataset_id: str, split: str):
     return load_dataset(dataset_id, split=split, streaming=True)
 
 
+def load_model_metadata(metadata_dir: Path, local_files_only: bool = True):
+    from transformers import AutoConfig, AutoTokenizer
+
+    tokenizer = AutoTokenizer.from_pretrained(metadata_dir, local_files_only=local_files_only)
+    config = AutoConfig.from_pretrained(metadata_dir, local_files_only=local_files_only)
+    return tokenizer, config
+
+
+def preflight_model_metadata(
+    metadata_dir: Path,
+    repo_id: str,
+    token: str | None = None,
+) -> PreflightResult:
+    resolved_token, token_source = resolve_hf_token(token)
+    tokenizer, config = load_model_metadata(metadata_dir, local_files_only=True)
+    tokenized = tokenize_training_example(
+        {
+            "instruction": "Summarize the metadata readiness for this model.",
+            "input": f"repo_id={repo_id}",
+            "output": "Metadata files are present and can be loaded locally.",
+        },
+        tokenizer,
+        max_length=64,
+    )
+    return PreflightResult(
+        metadata_dir=metadata_dir,
+        repo_id=repo_id,
+        tokenizer_loaded=tokenizer is not None,
+        config_loaded=config is not None,
+        tokenized_keys=tuple(sorted(tokenized.keys())),
+        token_source=token_source if resolved_token else None,
+    )
+
+
 def run_training(config: TrainingConfig) -> None:
     if config.dataset_id is None:
         raise ValueError("--dataset-id is required for training")
@@ -159,10 +217,16 @@ def run_training(config: TrainingConfig) -> None:
     tokenizer.save_pretrained(config.output_dir)
 
 
-def parse_args() -> TrainingConfig:
+def parse_args() -> tuple[TrainingConfig, Path, bool]:
     parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--preflight-only", action="store_true")
+    parser.add_argument(
+        "--metadata-dir",
+        type=Path,
+        default=Path("training/fine-tuning/lfm2.5-1.2b-instruct-meta"),
+    )
     parser.add_argument("--model-id", default=TrainingConfig.model_id)
-    parser.add_argument("--dataset-id", required=True)
+    parser.add_argument("--dataset-id")
     parser.add_argument("--dataset-split", default=TrainingConfig.dataset_split)
     parser.add_argument("--max-length", type=int, default=TrainingConfig.max_length)
     parser.add_argument("--output-dir", type=Path, default=TrainingConfig.output_dir)
@@ -175,7 +239,7 @@ def parse_args() -> TrainingConfig:
     parser.add_argument("--require-ipex", action="store_true")
     args = parser.parse_args()
 
-    return TrainingConfig(
+    config = TrainingConfig(
         model_id=args.model_id,
         dataset_id=args.dataset_id,
         dataset_split=args.dataset_split,
@@ -189,7 +253,28 @@ def parse_args() -> TrainingConfig:
         use_ipex=not args.disable_ipex,
         require_ipex=args.require_ipex,
     )
+    return config, args.metadata_dir, args.preflight_only
 
 
 if __name__ == "__main__":
-    run_training(parse_args())
+    config, metadata_dir, preflight_only = parse_args()
+    if preflight_only or config.dataset_id is None:
+        preflight = preflight_model_metadata(
+            metadata_dir=metadata_dir,
+            repo_id=config.model_id,
+        )
+        print(
+            json.dumps(
+                {
+                    "metadata_dir": str(preflight.metadata_dir),
+                    "repo_id": preflight.repo_id,
+                    "tokenizer_loaded": preflight.tokenizer_loaded,
+                    "config_loaded": preflight.config_loaded,
+                    "tokenized_keys": list(preflight.tokenized_keys),
+                    "token_source": preflight.token_source,
+                },
+                indent=2,
+            )
+        )
+    else:
+        run_training(config)
