@@ -12,6 +12,7 @@ Implemented artifacts include:
 - Hugging Face streaming dataset helpers and tests
 - LFM metadata downloader and local preflight validation
 - mem0 retrieval embedding contract pinned to `LiquidAI/LFM2-ColBERT-350M`
+- Bootstrap mem0 fact-extraction and retrieval-triplet dataset builder
 - LFM2-ColBERT contrastive triplet fine-tuning entrypoint and local sidecar for mem0 retrieval
 - Synthetic 5-step LoRA smoke training
 - ONNX export for the smoke model
@@ -24,9 +25,11 @@ python -m pytest training\tests\test_intel_lora_config.py
 python -m pytest training\tests\test_lfm_base_download.py
 python -m pytest training\tests\test_mem0_lfm2_colbert_config.py
 python -m pytest training\tests\test_lfm2_colbert_finetune.py
+python -m pytest training\tests\test_mem0_dataset_builder.py
 python training\fine-tuning\download_lfm_base_metadata.py --output-dir C:\tmp\lfm2.5-1.2b-instruct-meta-script
 python training\fine-tuning\intel_lora_train.py --preflight-only --metadata-dir C:\tmp\lfm2.5-1.2b-instruct-meta-script --model-id LiquidAI/lfm2.5-1.2b-instruct
 python training\mem0\lfm2_colbert_config.py --output training\mem0\mem0_lfm2_colbert_config.json
+python training\mem0\build_mem0_datasets.py --output-dir training\mem0\datasets\bootstrap
 python training\mem0\lfm2_colbert_sidecar.py --host 127.0.0.1 --port 8766
 python training\mem0\lfm2_colbert_finetune.py --dataset-id sentence-transformers/msmarco-bm25 --dataset-name triplet --max-steps 100
 python training\fine-tuning\run_lora_smoke.py --steps 5 --output-dir training\fine-tuning\lfm2.5-1.2b-intel-lora-smoke

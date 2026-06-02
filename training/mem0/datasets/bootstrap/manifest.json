@@ -1,0 +1,11 @@
+{
+  "output_dir": "training\\mem0\\datasets\\bootstrap",
+  "fact_records": 5,
+  "retrieval_triplets": 10,
+  "sidecar_documents": 5,
+  "files": {
+    "fact_extraction": "fact_extraction.jsonl",
+    "retrieval_triplets": "retrieval_triplets.jsonl",
+    "sidecar_documents": "sidecar_documents.jsonl"
+  }
+}

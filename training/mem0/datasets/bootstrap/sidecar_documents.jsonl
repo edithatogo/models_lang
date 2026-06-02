@@ -1,0 +1,5 @@
+{"id": "timezone-fact-1", "metadata": {"scenario_id": "timezone", "source": "bootstrap"}, "text": "The user is in the Australia/Sydney timezone."}
+{"id": "repo_workflow-fact-1", "metadata": {"scenario_id": "repo_workflow", "source": "bootstrap"}, "text": "For repo work, the user wants files inspected before changes are made."}
+{"id": "windows_shell-fact-1", "metadata": {"scenario_id": "windows_shell", "source": "bootstrap"}, "text": "The user's normal working environment is Windows with PowerShell."}
+{"id": "mem0_colbert-fact-1", "metadata": {"scenario_id": "mem0_colbert", "source": "bootstrap"}, "text": "mem0 retrieval should use LFM2-ColBERT with a sidecar and MaxSim scoring."}
+{"id": "concise_final-fact-1", "metadata": {"scenario_id": "concise_final", "source": "bootstrap"}, "text": "The user prefers concise final answers with changes, verification, and blockers."}

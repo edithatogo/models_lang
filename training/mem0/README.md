@@ -21,6 +21,19 @@ Generate the checked config with:
 python training\mem0\lfm2_colbert_config.py --output training\mem0\mem0_lfm2_colbert_config.json
 ```
 
+Build the bootstrap mem0 datasets with:
+
+```powershell
+python training\mem0\build_mem0_datasets.py --output-dir training\mem0\datasets\bootstrap
+```
+
+This writes:
+
+- `fact_extraction.jsonl`: LFM chat-template examples that map dialogue to strict JSON facts.
+- `retrieval_triplets.jsonl`: query, positive memory, and negative memory triples for ColBERT.
+- `sidecar_documents.jsonl`: memory records ready for `/documents/upsert`.
+- `manifest.json`: counts and file names for verification.
+
 Install and run the sidecar:
 
 ```powershell
