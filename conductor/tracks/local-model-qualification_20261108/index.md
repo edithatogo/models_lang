@@ -6,6 +6,8 @@
 
 A reproducible *task × model × exact revision × quantisation × runtime × OS/architecture × accelerator* qualification matrix, reusable by coding agents, medicolegal analysis, clinical extraction, health-policy research and clinical safety work. Model selection must be evidence-led; fine-tuning is an experimental option, never the default.
 
+[Hardware and runtime profile matrix](hardware-profiles.md) specifies Windows/Linux/macOS, x64/ARM64, NVIDIA/CUDA and Apple Metal/MLX candidates; every entry remains unverified until physically tested.
+
 ## Existing starting points
 
 - `training/fine-tuning`: Intel/OpenVINO/ONNX LoRA smoke pipeline and experimental Liquid checkpoints.
