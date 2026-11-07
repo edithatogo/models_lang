@@ -1,0 +1,133 @@
+{
+  "schema_version": 1,
+  "as_of": "2026-11-08",
+  "source": "Hugging Face model repository metadata, verified during repository planning",
+  "qualification_state": "discovery_only",
+  "notes": [
+    "Model presence does not establish support on CUDA, MLX, OpenVINO, GGUF or a given OS.",
+    "Commercial/legal licences and gated access require individual review.",
+    "All models start unqualified for clinical or medicolegal decision-making."
+  ],
+  "models": [
+    {
+      "hf_model_id": "LiquidAI/LFM3-1.7B",
+      "architecture": "lfm3",
+      "candidate_role": "small_text",
+      "licence_tag": "other",
+      "revision": null,
+      "model_qualified": false,
+      "device_runtime_qualification": [],
+      "licence_review_completed": false
+    },
+    {
+      "hf_model_id": "LiquidAI/d1-2B",
+      "architecture": "lfm3_vl",
+      "candidate_role": "typed_decision",
+      "licence_tag": "other",
+      "revision": null,
+      "model_qualified": false,
+      "device_runtime_qualification": [],
+      "licence_review_completed": false
+    },
+    {
+      "hf_model_id": "LiquidAI/d1-Omni-2B",
+      "architecture": "lfm3_omni",
+      "candidate_role": "typed_decision_audio",
+      "licence_tag": "other",
+      "revision": null,
+      "model_qualified": false,
+      "device_runtime_qualification": [],
+      "licence_review_completed": false
+    },
+    {
+      "hf_model_id": "LiquidAI/LFM2.5-8B-A1B",
+      "architecture": "lfm2_moe",
+      "candidate_role": "small_moe",
+      "licence_tag": "other",
+      "revision": null,
+      "model_qualified": false,
+      "device_runtime_qualification": [],
+      "licence_review_completed": false
+    },
+    {
+      "hf_model_id": "LiquidAI/LFM2.5-24B-A2B",
+      "architecture": "lfm2_moe",
+      "candidate_role": "larger_moe",
+      "licence_tag": "other",
+      "revision": null,
+      "model_qualified": false,
+      "device_runtime_qualification": [],
+      "licence_review_completed": false
+    },
+    {
+      "hf_model_id": "Qwen/Qwen3.5-4B",
+      "architecture": "qwen3_5",
+      "candidate_role": "small_general",
+      "licence_tag": "apache-2.0",
+      "revision": null,
+      "model_qualified": false,
+      "device_runtime_qualification": [],
+      "licence_review_completed": false
+    },
+    {
+      "hf_model_id": "XiaomiMiMo/MiMo-V2.6-Distill-Qwen-9B",
+      "architecture": "qwen3_5",
+      "candidate_role": "small_coding",
+      "licence_tag": "mit",
+      "revision": null,
+      "model_qualified": false,
+      "device_runtime_qualification": [],
+      "licence_review_completed": false
+    },
+    {
+      "hf_model_id": "Qwen/Qwen3.8-27B",
+      "architecture": "qwen3_5",
+      "candidate_role": "reasoning_general",
+      "licence_tag": "apache-2.0",
+      "revision": null,
+      "model_qualified": false,
+      "device_runtime_qualification": [],
+      "licence_review_completed": false
+    },
+    {
+      "hf_model_id": "Qwen/Qwen3-Coder-Next",
+      "architecture": "qwen3_next",
+      "candidate_role": "coding_moe",
+      "licence_tag": "apache-2.0",
+      "revision": null,
+      "model_qualified": false,
+      "device_runtime_qualification": [],
+      "licence_review_completed": false
+    },
+    {
+      "hf_model_id": "google/gemma-4-31B-it",
+      "architecture": "gemma4",
+      "candidate_role": "multimodal_general",
+      "licence_tag": "apache-2.0",
+      "revision": null,
+      "model_qualified": false,
+      "device_runtime_qualification": [],
+      "licence_review_completed": false
+    },
+    {
+      "hf_model_id": "google/medgemma-1.5-4b-it",
+      "architecture": "gemma3",
+      "candidate_role": "gated_medical",
+      "licence_tag": "other",
+      "revision": null,
+      "model_qualified": false,
+      "device_runtime_qualification": [],
+      "licence_review_completed": false
+    },
+    {
+      "hf_model_id": "google/medgemma-27b-text-it",
+      "architecture": "gemma3_text",
+      "candidate_role": "gated_medical",
+      "licence_tag": "other",
+      "revision": null,
+      "model_qualified": false,
+      "device_runtime_qualification": [],
+      "licence_review_completed": false
+    }
+  ]
+}
