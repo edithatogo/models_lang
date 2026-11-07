@@ -1,0 +1,166 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/edithatogo/models_lang/blob/main/contracts/qualification-result.schema.json",
+  "title": "Local model qualification result v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "candidate_id",
+    "checkpoint_revision",
+    "status",
+    "task_id",
+    "hardware",
+    "runtime",
+    "data_class",
+    "metrics",
+    "provenance"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": 1
+    },
+    "candidate_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "checkpoint_revision": {
+      "type": "string",
+      "minLength": 7
+    },
+    "status": {
+      "enum": [
+        "passed",
+        "failed",
+        "blocked",
+        "unverified"
+      ]
+    },
+    "task_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "hardware": {
+      "type": "object",
+      "required": [
+        "os",
+        "architecture",
+        "accelerator",
+        "memory_bytes"
+      ],
+      "properties": {
+        "os": {
+          "enum": [
+            "windows",
+            "linux",
+            "macos"
+          ]
+        },
+        "architecture": {
+          "enum": [
+            "x86_64",
+            "arm64"
+          ]
+        },
+        "accelerator": {
+          "type": "string"
+        },
+        "memory_bytes": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "gpu_memory_bytes": {
+          "type": [
+            "integer",
+            "null"
+          ],
+          "minimum": 0
+        }
+      },
+      "additionalProperties": true
+    },
+    "runtime": {
+      "type": "object",
+      "required": [
+        "name",
+        "version",
+        "quantisation"
+      ],
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "version": {
+          "type": "string"
+        },
+        "quantisation": {
+          "type": "string"
+        },
+        "kernel_revision": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "context_tokens": {
+          "type": "integer",
+          "minimum": 0
+        }
+      },
+      "additionalProperties": true
+    },
+    "data_class": {
+      "enum": [
+        "synthetic",
+        "public_rights_cleared",
+        "controlled_local"
+      ]
+    },
+    "metrics": {
+      "type": "object",
+      "additionalProperties": {
+        "type": [
+          "number",
+          "integer",
+          "null"
+        ]
+      }
+    },
+    "provenance": {
+      "type": "object",
+      "required": [
+        "fixture_revision",
+        "evaluated_at",
+        "runner_version"
+      ],
+      "properties": {
+        "fixture_revision": {
+          "type": "string"
+        },
+        "evaluated_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "runner_version": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": true
+    },
+    "limitations": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "approval": {
+      "type": "string",
+      "enum": [
+        "none",
+        "research_only",
+        "human_reviewed",
+        "product_authorised"
+      ]
+    }
+  }
+}
