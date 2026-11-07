@@ -2,6 +2,10 @@
 
 Local model fine-tuning and optimization experiments.
 
+## Cross-platform model qualification
+
+The [Conductor qualification programme](conductor/tracks/local-model-qualification_20261108/index.md) adds a discovery-only [model candidate catalogue](catalog/candidates.json) and a [versioned result schema](contracts/qualification-result.schema.json). These are planning/contract artefacts; no candidate is certified or benchmarked merely by appearing in the catalogue. Existing training and retrieval experiments remain unchanged.
+
 ## Current Track
 
 The active work is the Intel/OpenVINO LoRA optimization pipeline under `training/fine-tuning`.
